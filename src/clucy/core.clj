@@ -128,7 +128,8 @@
      (document->map document score (constantly nil)))
   ([^Document document score highlighter]
      (let [m (into {} (for [^Field f (.getFields document)]
-                        [(keyword (.name f)) (.stringValue f)]))
+                        [(keyword (.name f)) (or (.numericValue f)
+                                                 (.stringValue f))]))
            fragments (highlighter m) ; so that we can highlight :_content
            m (dissoc m :_content)]
        (with-meta
